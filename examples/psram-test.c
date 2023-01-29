@@ -4,19 +4,20 @@
 #include <pico/stdlib.h>
 
 #include "psram_spi.h"
-pio_spi_inst_t psram_spi;
+psram_spi_inst_t psram_spi;
 
 int main()
 {
     // Overclock!
-    set_sys_clock_khz(280000, true);
+    // set_sys_clock_khz(280000, true);
+    set_sys_clock_khz(250000, true);
 
     stdio_init_all();
-    
+
     puts("PSRAM test - rp2040-psram v1.0.0");
 
     puts("Initing PSRAM...");
-    psram_spi = psram_init();
+    psram_spi = psram_spi_init(pio1, -1);
 
     uint32_t psram_begin, psram_elapsed;
     float psram_speed;
@@ -31,14 +32,6 @@ int main()
     psram_elapsed = time_us_32() - psram_begin;
     psram_speed = 1000000.0 * 8 * 1024.0 * 1024 / psram_elapsed;
     printf("8 bit: PSRAM write 8MB in %d us, %d B/s\n", psram_elapsed, (uint32_t)psram_speed);
-
-    psram_begin = time_us_32();
-    for (uint32_t addr = 0; addr < (8 * 1024 * 1024); ++addr) {
-        psram_write8_async(&psram_spi, addr, (addr & 0xFF));
-    }
-    psram_elapsed = time_us_32() - psram_begin;
-    psram_speed = 1000000.0 * 8 * 1024.0 * 1024 / psram_elapsed;
-    printf("8 bit: PSRAM write async 8MB in %d us, %d B/s\n", psram_elapsed, (uint32_t)psram_speed);
 
     psram_begin = time_us_32();
     for (uint32_t addr = 0; addr < (8 * 1024 * 1024); ++addr) {
@@ -147,5 +140,8 @@ int main()
     psram_speed = 1000000.0 * 8 * 1024.0 * 1024 / psram_elapsed;
     printf("128 bit: PSRAM read 8MB in %d us, %d B/s\n", psram_elapsed, (uint32_t)psram_speed);
 
+    while (1) {
+        sleep_ms(10);
+    }
 
 }

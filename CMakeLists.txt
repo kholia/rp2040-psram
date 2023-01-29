@@ -12,7 +12,7 @@ project(rp2040-psram
 add_library(rp2040-psram INTERFACE)
 
 target_sources(rp2040-psram INTERFACE
-        psram_spi.c
+        psram_spi.h
 )
 target_include_directories(rp2040-psram INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 

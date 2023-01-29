@@ -30,6 +30,13 @@ An example that tests the PSRAM by writing and reading 8MB of data with 8, 16, 3
 
 ### Hardware connections
 
+```
+PSRAM_PIN_CS=9
+PSRAM_PIN_SCK=10
+PSRAM_PIN_MOSI=11
+PSRAM_PIN_MISO=12
+```
+
 Due to using sideset to drive the CS and SCK signals, those two pins must be on consecutive GPIOs. For example, if CS is on GPIO 0, SCK must be on GPIO 1. MOSI and MISO may be on any pin and do not need to be adjacent.
 
 QSPI support is on the roadmap for the future. If you plan on using QSPI, SIO[0] through SIO[3] must be on consecutive GPIOs.
